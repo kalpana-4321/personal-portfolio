@@ -78,7 +78,7 @@ export const Hero = () => {
               </Button>
 
               <a
-                href="/Kaladevi_Rishidev_12.pdf"
+                href="/Kaladevi Rishidev - Frontend Developer Resume.pdf"
                 download
                 className="relative group px-8 py-4 flex items-center gap-2 text-white font-medium"
               >
