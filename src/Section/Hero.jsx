@@ -123,26 +123,28 @@ export const Hero = () => {
             </div>
           </div>
 
-          {/* Right Column: Image */}
+          {/* Right Column: Circular Image */}
           <div
             className="relative animate-fade-in flex justify-center lg:justify-end"
             style={{ animationDelay: "0.2s" }}
           >
-            <div className="relative max-w-sm w-full">
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#20b2a6]/30 via-transparent to-[#20b2a6]/10 blur-2xl animate-pulse-glow" />
+            <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96">
+              {/* Background Glow Effect */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#20b2a6]/40 via-transparent to-[#20b2a6]/20 blur-3xl animate-pulse-glow" />
 
-              <div className="relative glass rounded-4xl p-3 glow-border overflow-hidden">
+              {/* Circular Container with Glass Border */}
+              <div className="relative w-full h-full rounded-full glass p-3 glow-border overflow-hidden flex items-center justify-center">
                 <img
-                  src="/kaladevi1.png"
+                  src="/kalpana-profile-pic.jpeg"
                   alt="Kaladevi Rishidev"
-                  className="w-full aspect-[4/5] object-cover rounded-[1.5rem]"
+                  className="w-full h-full object-cover rounded-full object-[center_20%]"
                 />
 
-                {/* Available for Work Badge - Moved further down and right */}
-                <div className="absolute -bottom-2 -right-3 glass rounded-xl px-4 py-3 animate-bounce shadow-2xl z-20">
-                  <div className="flex items-center gap-3">
-                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]" />
-                    <span className="text-sm font-medium text-white whitespace-nowrap">
+                {/* Available for Work Badge */}
+                <div className="absolute bottom-4 right-4 glass rounded-xl px-4 py-2.5 animate-bounce shadow-2xl z-20">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_#22c55e]" />
+                    <span className="text-xs sm:text-sm font-medium text-white whitespace-nowrap">
                       Available for work
                     </span>
                   </div>
@@ -153,7 +155,7 @@ export const Hero = () => {
         </div>
       </div>
 
-      {/* Skills Section - Arranged and cleaned up */}
+      {/* Skills Section */}
       <div className="relative z-10 py-12 w-full bg-gradient-to-t from-black/20 to-transparent">
         <p className="text-center text-gray-500 text-xs mb-6 uppercase tracking-[0.3em]">
           Technologies I work with
