@@ -125,7 +125,7 @@ export const Hero = () => {
 
           {/* Right Column: Circular Image */}
           <div
-            className="relative animate-fade-in flex justify-center lg:justify-end"
+            className="relative animate-fade-in flex justify-center lg:justify-end pb-8 lg:pb-0"
             style={{ animationDelay: "0.2s" }}
           >
             <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96">
@@ -135,19 +135,19 @@ export const Hero = () => {
               {/* Circular Container with Glass Border */}
               <div className="relative w-full h-full rounded-full glass p-3 glow-border overflow-hidden flex items-center justify-center">
                 <img
-                  src="/kalpana-profile-pic.jpeg"
+                  src="/kaladevi1.png"
                   alt="Kaladevi Rishidev"
                   className="w-full h-full object-cover rounded-full object-[center_20%]"
                 />
+              </div>
 
-                {/* Available for Work Badge */}
-                <div className="absolute bottom-4 right-4 glass rounded-xl px-4 py-2.5 animate-bounce shadow-2xl z-20">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_#22c55e]" />
-                    <span className="text-xs sm:text-sm font-medium text-white whitespace-nowrap">
-                      Available for work
-                    </span>
-                  </div>
+              {/* Available for Work Badge - Centered at the bottom edge */}
+              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 glass rounded-full px-5 py-2.5 animate-bounce shadow-2xl z-20 whitespace-nowrap">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_#22c55e]" />
+                  <span className="text-xs sm:text-sm font-medium text-white">
+                    Available for work
+                  </span>
                 </div>
               </div>
             </div>
