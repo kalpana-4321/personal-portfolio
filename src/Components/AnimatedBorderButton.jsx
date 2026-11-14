@@ -1,4 +1,5 @@
-import {ownload} from "lucide-react";
+import React from "react";
+import { Download } from "lucide-react";
 
 export const AnimatedBorderButton=()=>{
     return(

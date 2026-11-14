@@ -53,13 +53,13 @@ export const About = () => {
             {/* 5. Replaced entire text block with the text from Screenshot 1 */}
             <div className="space-y-6 text-gray-300 text-lg leading-relaxed">
               <p>
-               Motivated and detail-oriented BSc CSIT graduate with a strong foundation in frontend development using HTML, CSS, JavaScript, React.js, and Tailwind CSS.
+                Motivated and detail-oriented BSc CSIT graduate with hands-on expertise in frontend and full-stack development using <span className="text-white font-medium">React.js, Next.js 16 (App Router), TypeScript, JavaScript (ES6+), and Tailwind CSS</span>.
               </p>
               <p>
-                Completed an internship with hands-on experience in network troubleshooting, Cisco Packet Tracer, IP configuration, and technical support. Passionate about building responsive, user-friendly web applications and solving real-world problems through technology.
+                Experienced in architecting modern web applications with serverless databases (<span className="text-white font-medium">Neon PostgreSQL</span>), intelligent AI agents (<span className="text-white font-medium">Google Gemini</span>), and payment gateway workflows (<span className="text-white font-medium">Khalti API</span>). Passionate about high performance, achieving 98+ Google Lighthouse scores and optimizing Core Web Vitals.
               </p>
               <p>
-                Eager to contribute to a dynamic development team while continuously learning new technologies and enhancing my skills as a frontend developer.
+                Completed an IT & Networking internship at <span className="text-white font-medium">Nepal Rastra Bank</span>, gaining practical troubleshooting and systems experience. Eager to contribute to high-impact engineering teams while continuously innovating.
               </p>
             </div>
             

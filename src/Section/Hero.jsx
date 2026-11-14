@@ -4,7 +4,42 @@ import { ArrowRight, Download, ChevronDown } from "lucide-react";
 import { SiGithub } from "react-icons/si";
 import { FaLinkedin } from "react-icons/fa";
 
-const skills = ["React", "javascript", "tailwindcss"];
+const skills = [
+  "Next.js 16",
+  "React 19",
+  "TypeScript",
+  "Tailwind CSS",
+  "Neon PostgreSQL",
+  "Google Gemini AI",
+  "Khalti Gateway",
+  "JavaScript (ES6+)",
+  "REST APIs",
+  "Vite",
+  "Git & GitHub",
+];
+
+const floatingParticles = [
+  { left: "12%", top: "25%", delay: "0.5s", opacity: 0.4 },
+  { left: "28%", top: "60%", delay: "1.2s", opacity: 0.6 },
+  { left: "45%", top: "15%", delay: "2.1s", opacity: 0.35 },
+  { left: "62%", top: "78%", delay: "0.8s", opacity: 0.5 },
+  { left: "75%", top: "35%", delay: "3.4s", opacity: 0.45 },
+  { left: "88%", top: "55%", delay: "1.9s", opacity: 0.65 },
+  { left: "18%", top: "82%", delay: "2.7s", opacity: 0.3 },
+  { left: "34%", top: "40%", delay: "4.1s", opacity: 0.55 },
+  { left: "53%", top: "90%", delay: "0.2s", opacity: 0.4 },
+  { left: "70%", top: "18%", delay: "1.5s", opacity: 0.5 },
+  { left: "82%", top: "70%", delay: "3.8s", opacity: 0.35 },
+  { left: "08%", top: "45%", delay: "2.3s", opacity: 0.6 },
+  { left: "22%", top: "12%", delay: "4.5s", opacity: 0.45 },
+  { left: "39%", top: "72%", delay: "1.1s", opacity: 0.5 },
+  { left: "58%", top: "30%", delay: "3.0s", opacity: 0.4 },
+  { left: "68%", top: "65%", delay: "0.7s", opacity: 0.55 },
+  { left: "92%", top: "22%", delay: "2.5s", opacity: 0.35 },
+  { left: "85%", top: "88%", delay: "4.2s", opacity: 0.6 },
+  { left: "48%", top: "52%", delay: "1.7s", opacity: 0.5 },
+  { left: "15%", top: "95%", delay: "3.1s", opacity: 0.4 },
+];
 
 export const Hero = () => {
   const icon = [
@@ -29,16 +64,16 @@ export const Hero = () => {
 
       {/* Animated Floating Particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
+        {floatingParticles.map((particle, i) => (
           <div
             key={i}
             className="absolute w-1 h-1 rounded-full animate-slow-drift"
             style={{
               backgroundColor: "#20b2a6",
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
-              opacity: Math.random() * 0.5 + 0.2,
+              left: particle.left,
+              top: particle.top,
+              animationDelay: particle.delay,
+              opacity: particle.opacity,
             }}
           />
         ))}
@@ -50,7 +85,7 @@ export const Hero = () => {
           <div className="space-y-8 animate-fade-in">
             <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full glass text-sm text-[#20b2a6]">
               <span className="w-2 h-2 bg-[#20b2a6] rounded-full animate-pulse" />
-              Frontend Developer • React.js Specialist
+              Full-Stack Frontend Developer • React & Next.js Specialist
             </div>
 
             <h1 className="text-5xl md:text-7xl font-bold leading-tight text-white">
@@ -65,17 +100,19 @@ export const Hero = () => {
 
             <p className="text-lg text-gray-400 max-w-lg">
               Hi, I'm <span className="text-white">Kaladevi Rishidev</span>. I
-              build scalable, high-performance web applications using React.js
-              and Tailwind CSS.
+              build scalable, high-performance web applications using React.js,
+              Next.js 16, TypeScript, serverless databases, and AI agent integrations.
             </p>
 
             <div className="flex flex-wrap gap-6">
-              <Button
-                size="lg"
-                className="gap-2 bg-[#20b2a6] hover:bg-[#1a9389] text-white"
-              >
-                Contact me <ArrowRight className="w-5 h-5" />
-              </Button>
+              <a href="#contact">
+                <Button
+                  size="lg"
+                  className="gap-2 bg-[#20b2a6] hover:bg-[#1a9389] text-white"
+                >
+                  Contact me <ArrowRight className="w-5 h-5" />
+                </Button>
+              </a>
 
               <a
                 href="/Kaladevi Rishidev - Frontend Developer Resume.pdf"
