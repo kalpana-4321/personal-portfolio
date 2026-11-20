@@ -207,16 +207,6 @@ export const Contact = () => {
                 <p className="text-gray-400">Kathmandu, Nepal</p>
               </div>
             </div>
-
-            <div className="p-5 rounded-xl border border-gray-800 bg-[#151b21] space-y-2.5">
-              <h5 className="font-semibold text-sm text-[#20b2a6] flex items-center gap-2">
-                <KeyRound className="w-4 h-4" /> Direct Gmail Integration
-              </h5>
-              <p className="text-xs text-gray-400 leading-relaxed">
-                When you click <strong className="text-gray-200">Send Message</strong>, your message is sent straight to{" "}
-                <strong className="text-[#20b2a6]">kalpanabhandari383@gmail.com</strong> in the background. No mail client or manual compose window is needed.
-              </p>
-            </div>
           </div>
 
           {/* Contact Form */}
