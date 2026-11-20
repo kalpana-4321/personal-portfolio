@@ -229,9 +229,6 @@ export const Contact = () => {
                 <CheckCircle2 className="w-5 h-5 text-[#20b2a6] shrink-0 mt-0.5" />
                 <div>
                   <h5 className="font-semibold text-sm text-[#20b2a6]">Message Sent Successfully!</h5>
-                  <p className="text-xs text-gray-300 mt-1">
-                    Your details have been delivered to kalpanabhandari383@gmail.com. Thank you, I will get back to you shortly!
-                  </p>
                 </div>
               </div>
             )}
