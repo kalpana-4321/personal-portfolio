@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Mail, Phone, MapPin, Send, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { Mail, Phone, MapPin, Send, CheckCircle2, AlertCircle, Loader2, KeyRound } from "lucide-react";
+import emailjs from "@emailjs/browser";
 import { Button } from "../Components/Button";
 
 export const Contact = () => {
@@ -22,44 +23,128 @@ export const Contact = () => {
     setStatus("loading");
     setErrorMessage("");
 
-    try {
-      const response = await fetch("https://formsubmit.co/ajax/kalpanabhandari383@gmail.com", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-          _subject: `New Portfolio Message from ${formData.name || "Visitor"}: ${formData.subject || "Contact Form"}`,
-          _captcha: "false",
-        }),
-      });
+    const emailjsServiceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const emailjsTemplateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const emailjsPublicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+    const web3formsAccessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
 
-      const data = await response.json();
+    let isSent = false;
+    let failureDetail = "";
 
-      if (response.ok && (data.success === "true" || data.success === true || response.status === 200)) {
-        setStatus("success");
-        setFormData({ name: "", email: "", subject: "", message: "" });
-      } else {
-        throw new Error(data.message || "Failed to send message via form endpoint.");
+    // 1. Try EmailJS with connected Gmail account if keys are present
+    if (emailjsServiceId && emailjsTemplateId && emailjsPublicKey) {
+      try {
+        await emailjs.send(
+          emailjsServiceId,
+          emailjsTemplateId,
+          {
+            from_name: formData.name,
+            from_email: formData.email,
+            subject: formData.subject || `Message from ${formData.name}`,
+            message: formData.message,
+            to_email: "kalpanabhandari383@gmail.com",
+            reply_to: formData.email,
+          },
+          emailjsPublicKey
+        );
+        isSent = true;
+      } catch (err) {
+        console.error("EmailJS dispatch failed:", err);
+        failureDetail = err?.text || err?.message || "EmailJS failed";
       }
-    } catch (err) {
-      console.error("Form submission error:", err);
-      // Fallback: Open mailto with the user's message prefilled
-      const mailtoUrl = `mailto:kalpanabhandari383@gmail.com?subject=${encodeURIComponent(
-        formData.subject || `Message from ${formData.name || "Portfolio Visitor"}`
-      )}&body=${encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-      )}`;
+    }
 
-      window.location.href = mailtoUrl;
+    // 2. Try Web3Forms access key if configured
+    if (!isSent && web3formsAccessKey) {
+      try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            access_key: web3formsAccessKey,
+            name: formData.name,
+            email: formData.email,
+            subject: formData.subject || `Portfolio Contact: ${formData.name}`,
+            message: formData.message,
+            from_name: formData.name,
+          }),
+        });
+        const resData = await response.json();
+        if (response.ok && resData.success) {
+          isSent = true;
+        } else {
+          failureDetail = resData.message || "Web3Forms submission failed";
+        }
+      } catch (err) {
+        console.error("Web3Forms dispatch failed:", err);
+        failureDetail = err.message;
+      }
+    }
+
+    // 3. Try Vercel Serverless Function (/api/contact) with Gmail SMTP
+    if (!isSent) {
+      try {
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+          const resData = await response.json();
+          if (resData.success) {
+            isSent = true;
+          }
+        }
+      } catch (err) {
+        // Expected when running local vite preview without backend serverless runner
+      }
+    }
+
+    // 4. Try FormSubmit Direct Relay without any mailto popups
+    if (!isSent) {
+      try {
+        const response = await fetch("https://formsubmit.co/ajax/kalpanabhandari383@gmail.com", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            subject: formData.subject || `Message from ${formData.name}`,
+            message: formData.message,
+            _subject: `New Portfolio Message from ${formData.name}: ${formData.subject || "Contact Form"}`,
+            _captcha: "false",
+          }),
+        });
+
+        const resData = await response.json();
+        if (response.ok && (resData.success === "true" || resData.success === true || response.status === 200)) {
+          isSent = true;
+        } else {
+          failureDetail = resData.message || "FormSubmit relay failed";
+        }
+      } catch (err) {
+        console.error("Relay dispatch failed:", err);
+        failureDetail = err.message;
+      }
+    }
+
+    if (isSent) {
+      setStatus("success");
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } else {
       setStatus("error");
       setErrorMessage(
-        "Direct server relay took too long. Opened your email client with the message pre-filled to kalpanabhandari383@gmail.com!"
+        failureDetail || "Unable to send message directly. Please ensure your network connection is active."
       );
     }
   };
@@ -73,16 +158,9 @@ export const Contact = () => {
             Contact <span className="text-[#20b2a6]">Me</span>
           </h2>
 
-          <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
+          <p className="mt-4 text-gray-400 max-w-2xl mx-auto text-sm md:text-base">
             I'm currently looking for frontend development opportunities, internships, and freelance projects.
-            Feel free to reach out via the form below or email me directly at{" "}
-            <a
-              href="mailto:kalpanabhandari383@gmail.com"
-              className="text-[#20b2a6] hover:underline"
-            >
-              kalpanabhandari383@gmail.com
-            </a>
-            . Thank you!
+            Drop a message below and all details will be sent directly to my personal Gmail inbox.
           </p>
         </div>
 
@@ -133,13 +211,13 @@ export const Contact = () => {
               </div>
             </div>
 
-            <div className="p-5 rounded-xl border border-gray-800 bg-[#151b21] space-y-2">
+            <div className="p-5 rounded-xl border border-gray-800 bg-[#151b21] space-y-2.5">
               <h5 className="font-semibold text-sm text-[#20b2a6] flex items-center gap-2">
-                <Mail className="w-4 h-4" /> Direct Inbox Delivery
+                <KeyRound className="w-4 h-4" /> Direct Gmail Integration
               </h5>
               <p className="text-xs text-gray-400 leading-relaxed">
-                Messages submitted through the contact form are forwarded straight to my personal Gmail (
-                <strong className="text-gray-200">kalpanabhandari383@gmail.com</strong>). I reply promptly!
+                When you click <strong className="text-gray-200">Send Message</strong>, your message is sent straight to{" "}
+                <strong className="text-[#20b2a6]">kalpanabhandari383@gmail.com</strong> in the background. No mail client or manual compose window is needed.
               </p>
             </div>
           </div>
@@ -152,17 +230,17 @@ export const Contact = () => {
                 <div>
                   <h5 className="font-semibold text-sm text-[#20b2a6]">Message Sent Successfully!</h5>
                   <p className="text-xs text-gray-300 mt-1">
-                    Thank you! Your message has been delivered to kalpanabhandari383@gmail.com. I will get back to you shortly.
+                    Your details have been delivered to kalpanabhandari383@gmail.com. Thank you, I will get back to you shortly!
                   </p>
                 </div>
               </div>
             )}
 
             {status === "error" && (
-              <div className="mb-6 p-4 rounded-xl bg-amber-500/15 border border-amber-500/40 text-white flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+              <div className="mb-6 p-4 rounded-xl bg-rose-500/15 border border-rose-500/40 text-white flex items-start gap-3">
+                <AlertCircle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
                 <div>
-                  <h5 className="font-semibold text-sm text-amber-300">Notice</h5>
+                  <h5 className="font-semibold text-sm text-rose-300">Delivery Error</h5>
                   <p className="text-xs text-gray-300 mt-1">{errorMessage}</p>
                 </div>
               </div>

@@ -9,8 +9,6 @@ const skills = [
   "TypeScript",
   "Tailwind CSS",
   "JavaScript",
-  "REST APIs",
-  "Git & GitHub",
 ];
 
 const floatingParticles = [
