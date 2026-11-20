@@ -115,10 +115,6 @@ export const Projects = () => {
             </h2>
             <div className="h-1 w-20 bg-[#20b2a6] mt-4 rounded-full" />
           </div>
-
-          <p className="mt-4 md:mt-0 text-gray-400 max-w-md text-sm md:text-base">
-            A curated collection of full-stack web applications, APIs, and responsive frontend experiences built with modern architecture.
-          </p>
         </div>
 
         {/* Projects Grid */}
