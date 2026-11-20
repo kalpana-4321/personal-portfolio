@@ -54,7 +54,6 @@ export const Contact = () => {
       }
     }
 
-    // 2. Try Web3Forms access key if configured
     if (!isSent && web3formsAccessKey) {
       try {
         const response = await fetch("https://api.web3forms.com/submit", {
@@ -84,7 +83,6 @@ export const Contact = () => {
       }
     }
 
-    // 3. Try Vercel Serverless Function (/api/contact) with Gmail SMTP
     if (!isSent) {
       try {
         const response = await fetch("/api/contact", {
@@ -103,11 +101,9 @@ export const Contact = () => {
           }
         }
       } catch (err) {
-        // Expected when running local vite preview without backend serverless runner
       }
     }
 
-    // 4. Try FormSubmit Direct Relay without any mailto popups
     if (!isSent) {
       try {
         const response = await fetch("https://formsubmit.co/ajax/kalpanabhandari383@gmail.com", {
@@ -160,7 +156,8 @@ export const Contact = () => {
 
           <p className="mt-4 text-gray-400 max-w-2xl mx-auto text-sm md:text-base">
             I'm currently looking for frontend development opportunities, internships, and freelance projects.
-            Drop a message below and all details will be sent directly to my personal Gmail inbox.
+            Feel free to reach out..
+            Thank you!!!
           </p>
         </div>
 
