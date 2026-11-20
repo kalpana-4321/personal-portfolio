@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "../Components/Button";
 import { ArrowRight, Download, ChevronDown } from "lucide-react";
 import { SiGithub } from "react-icons/si";
@@ -9,12 +8,8 @@ const skills = [
   "React 19",
   "TypeScript",
   "Tailwind CSS",
-  "Neon PostgreSQL",
-  "Google Gemini AI",
-  "Khalti Gateway",
-  "JavaScript (ES6+)",
+  "JavaScript",
   "REST APIs",
-  "Vite",
   "Git & GitHub",
 ];
 
@@ -59,7 +54,7 @@ export const Hero = () => {
           alt="Hero background"
           className="w-full h-full object-cover opacity-30"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/80 to-[#0f1418]"></div>
+        <div className="absolute inset-0 bg-linear-to-b from-transparent via-background/80 to-background"></div>
       </div>
 
       {/* Animated Floating Particles */}

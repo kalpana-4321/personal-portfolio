@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { ExternalLink, Sparkles, ArrowUpRight, FolderGit2 } from "lucide-react";
+import React from "react";
+import { ExternalLink, Sparkles, FolderGit2 } from "lucide-react";
 import { SiGithub } from "react-icons/si";
 
 const projects = [
   {
     title: "Expense & Financial Tracker",
     tagline: "Full-Stack Next.js 16 • AI Financial Agent • Khalti Payments",
-    category: "Full-Stack & AI",
-    featured: true,
+    category: "Next.js",
+    featured: false,
     description:
       "A personal finance and wallet management platform with real-time analytics, category budgeting, and wallet-linked savings goals. Features an intelligent Financial AI Agent powered by Google Gemini and secure Khalti payment gateway checkout and verification.",
     keyFeatures: [
@@ -27,30 +27,7 @@ const projects = [
       "Zod",
     ],
     github: "https://github.com/kalpana-4321/Expense-tracer",
-    live: null,
-  },
-  {
-    title: "OptiPulse — Web Performance Showcase",
-    tagline: "Core Web Vitals • 98-100 Lighthouse • Offline PWA",
-    category: "Full-Stack & AI",
-    featured: true,
-    description:
-      "An interactive web performance benchmarking application demonstrating modern frontend optimization techniques. Implements real-time Core Web Vitals monitoring (LCP, INP, CLS, TTFB), Service Worker offline caching, and Vite code-splitting to maintain a 98–100 Google Lighthouse score.",
-    keyFeatures: [
-      "Real-time Core Web Vitals telemetry via official web-vitals API",
-      "Service Worker caching with Stale-While-Revalidate strategy",
-      "Optimized chunk splitting and sub-second initial load latency",
-    ],
-    technologies: [
-      "React 19",
-      "Vite",
-      "TypeScript",
-      "Service Workers",
-      "Web Vitals API",
-      "Framer Motion",
-    ],
-    github: "https://github.com/kalpana-4321/codveda-performance-app",
-    live: "https://codveda-performance-app.vercel.app",
+    live: "https://expense-tracer-delta.vercel.app/",
   },
   {
     title: "NepBuy E-Commerce",
@@ -118,17 +95,7 @@ const projects = [
   },
 ];
 
-const categories = ["All", "Featured", "Full-Stack & AI", "React Apps"];
-
 export const Projects = () => {
-  const [activeCategory, setActiveCategory] = useState("All");
-
-  const filteredProjects = projects.filter((project) => {
-    if (activeCategory === "All") return true;
-    if (activeCategory === "Featured") return project.featured;
-    return project.category === activeCategory;
-  });
-
   return (
     <section id="projects" className="py-32 bg-[#0a0e12] text-white relative overflow-hidden">
       {/* Background accents */}
@@ -137,7 +104,7 @@ export const Projects = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
           <div>
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass text-xs text-[#20b2a6] mb-3">
               <Sparkles className="w-3.5 h-3.5" />
@@ -150,31 +117,13 @@ export const Projects = () => {
           </div>
 
           <p className="mt-4 md:mt-0 text-gray-400 max-w-md text-sm md:text-base">
-            A curated collection of full-stack web applications, AI integrations, and responsive frontend experiences built with modern architecture.
+            A curated collection of full-stack web applications, APIs, and responsive frontend experiences built with modern architecture.
           </p>
-        </div>
-
-        {/* Category Filter Tabs */}
-        <div className="flex flex-wrap gap-2.5 mb-12">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                activeCategory === cat
-                  ? "bg-[#20b2a6] text-[#0f1418] shadow-lg shadow-[#20b2a6]/25 font-semibold"
-                  : "glass text-gray-300 hover:text-white hover:border-[#20b2a6]/40"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
         </div>
 
         {/* Projects Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => (
+          {projects.map((project, index) => (
             <div
               key={index}
               className={`group flex flex-col justify-between rounded-2xl p-7 transition-all duration-300 ${
@@ -216,7 +165,7 @@ export const Projects = () => {
                   {project.description}
                 </p>
 
-                {/* Key Feature bullets if featured */}
+                {/* Key Feature bullets if available */}
                 {project.keyFeatures && (
                   <ul className="mb-6 space-y-1.5 text-xs text-gray-400 border-l-2 border-[#20b2a6]/30 pl-3">
                     {project.keyFeatures.map((feat, fIdx) => (
