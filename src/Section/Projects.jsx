@@ -5,9 +5,8 @@ import { SiGithub } from "react-icons/si";
 const projects = [
   {
     title: "Visa Appointment & Application Portal",
-    tagline: "Full-Stack Next.js 16 • Neon PostgreSQL • AWS S3 • Booking System",
-    category: "Full-Stack & AI",
-    featured: true,
+    tagline: "Visa Booking System",
+    category: "Next.Js",
     description:
       "A comprehensive visa application and appointment booking portal supporting global destinations. Features online document upload with AWS S3, real-time application status tracking, secure applicant authentication, appointment scheduling, and Neon Serverless PostgreSQL persistence.",
     keyFeatures: [
