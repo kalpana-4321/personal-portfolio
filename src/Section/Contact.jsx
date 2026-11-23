@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Mail, Phone, MapPin, Send, CheckCircle2, AlertCircle, Loader2, KeyRound } from "lucide-react";
-import emailjs from "@emailjs/browser";
+import { Mail, Phone, MapPin, Send, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "../Components/Button";
 
 export const Contact = () => {
@@ -23,87 +22,31 @@ export const Contact = () => {
     setStatus("loading");
     setErrorMessage("");
 
-    const emailjsServiceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const emailjsTemplateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-    const emailjsPublicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-    const web3formsAccessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
-
     let isSent = false;
     let failureDetail = "";
 
-    // 1. Try EmailJS with connected Gmail account if keys are present
-    if (emailjsServiceId && emailjsTemplateId && emailjsPublicKey) {
-      try {
-        await emailjs.send(
-          emailjsServiceId,
-          emailjsTemplateId,
-          {
-            from_name: formData.name,
-            from_email: formData.email,
-            subject: formData.subject || `Message from ${formData.name}`,
-            message: formData.message,
-            to_email: "kalpanabhandari383@gmail.com",
-            reply_to: formData.email,
-          },
-          emailjsPublicKey
-        );
+    // 1. Send via local/serverless /api/contact (Gmail SMTP to kalpanabhandari383@gmail.com)
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const resData = await response.json().catch(() => ({}));
+      if (response.ok && resData.success) {
         isSent = true;
-      } catch (err) {
-        console.error("EmailJS dispatch failed:", err);
-        failureDetail = err?.text || err?.message || "EmailJS failed";
+      } else {
+        failureDetail = resData.message || "Failed to send message.";
       }
+    } catch (err) {
+      failureDetail = err.message;
     }
 
-    if (!isSent && web3formsAccessKey) {
-      try {
-        const response = await fetch("https://api.web3forms.com/submit", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            access_key: web3formsAccessKey,
-            name: formData.name,
-            email: formData.email,
-            subject: formData.subject || `Portfolio Contact: ${formData.name}`,
-            message: formData.message,
-            from_name: formData.name,
-          }),
-        });
-        const resData = await response.json();
-        if (response.ok && resData.success) {
-          isSent = true;
-        } else {
-          failureDetail = resData.message || "Web3Forms submission failed";
-        }
-      } catch (err) {
-        console.error("Web3Forms dispatch failed:", err);
-        failureDetail = err.message;
-      }
-    }
-
-    if (!isSent) {
-      try {
-        const response = await fetch("/api/contact", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(formData),
-        });
-
-        if (response.ok) {
-          const resData = await response.json();
-          if (resData.success) {
-            isSent = true;
-          }
-        }
-      } catch (err) {
-      }
-    }
-
+    // 2. Direct fallback relay to kalpanabhandari383@gmail.com if /api/contact is unavailable
     if (!isSent) {
       try {
         const response = await fetch("https://formsubmit.co/ajax/kalpanabhandari383@gmail.com", {
@@ -115,22 +58,19 @@ export const Contact = () => {
           body: JSON.stringify({
             name: formData.name,
             email: formData.email,
-            subject: formData.subject || `Message from ${formData.name}`,
+            subject: formData.subject || `Portfolio Message from ${formData.name}`,
             message: formData.message,
-            _subject: `New Portfolio Message from ${formData.name}: ${formData.subject || "Contact Form"}`,
+            _subject: `New Portfolio Message from ${formData.name}`,
             _captcha: "false",
           }),
         });
 
-        const resData = await response.json();
+        const resData = await response.json().catch(() => ({}));
         if (response.ok && (resData.success === "true" || resData.success === true || response.status === 200)) {
           isSent = true;
-        } else {
-          failureDetail = resData.message || "FormSubmit relay failed";
         }
       } catch (err) {
-        console.error("Relay dispatch failed:", err);
-        failureDetail = err.message;
+        console.error("Fallback error:", err);
       }
     }
 
@@ -140,7 +80,7 @@ export const Contact = () => {
     } else {
       setStatus("error");
       setErrorMessage(
-        failureDetail || "Unable to send message directly. Please ensure your network connection is active."
+        failureDetail || "Unable to send message right now. Please try again or email directly."
       );
     }
   };
@@ -156,8 +96,7 @@ export const Contact = () => {
 
           <p className="mt-4 text-gray-400 max-w-2xl mx-auto text-sm md:text-base">
             I'm currently looking for frontend development opportunities, internships, and freelance projects.
-            Feel free to reach out..
-            Thank you!!!
+            Feel free to reach out. Thank you!
           </p>
         </div>
 
@@ -212,21 +151,18 @@ export const Contact = () => {
           {/* Contact Form */}
           <div className="bg-[#151b21] rounded-2xl p-6 sm:p-8 border border-gray-800">
             {status === "success" && (
-              <div className="mb-6 p-4 rounded-xl bg-[#20b2a6]/15 border border-[#20b2a6]/40 text-white flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-[#20b2a6] shrink-0 mt-0.5" />
-                <div>
-                  <h5 className="font-semibold text-sm text-[#20b2a6]">Message Sent Successfully!</h5>
-                </div>
+              <div className="mb-6 p-4 rounded-xl bg-[#20b2a6]/15 border border-[#20b2a6]/40 text-white flex items-center gap-3">
+                <CheckCircle2 className="w-5 h-5 text-[#20b2a6] shrink-0" />
+                <p className="font-semibold text-sm text-[#20b2a6]">
+                  Thank you for your message!
+                </p>
               </div>
             )}
 
             {status === "error" && (
-              <div className="mb-6 p-4 rounded-xl bg-rose-500/15 border border-rose-500/40 text-white flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
-                <div>
-                  <h5 className="font-semibold text-sm text-rose-300">Delivery Error</h5>
-                  <p className="text-xs text-gray-300 mt-1">{errorMessage}</p>
-                </div>
+              <div className="mb-6 p-4 rounded-xl bg-rose-500/15 border border-rose-500/40 text-white flex items-center gap-3">
+                <AlertCircle className="w-5 h-5 text-rose-400 shrink-0" />
+                <p className="font-medium text-sm text-rose-300">{errorMessage}</p>
               </div>
             )}
 
@@ -303,7 +239,7 @@ export const Contact = () => {
                 {status === "loading" ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />
-                    <span>Sending to Gmail...</span>
+                    <span>Sending...</span>
                   </>
                 ) : (
                   <>
