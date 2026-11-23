@@ -4,6 +4,31 @@ import { SiGithub } from "react-icons/si";
 
 const projects = [
   {
+    title: "Visa Appointment & Application Portal",
+    tagline: "Full-Stack Next.js 16 • Neon PostgreSQL • AWS S3 • Booking System",
+    category: "Full-Stack & AI",
+    featured: true,
+    description:
+      "A comprehensive visa application and appointment booking portal supporting global destinations. Features online document upload with AWS S3, real-time application status tracking, secure applicant authentication, appointment scheduling, and Neon Serverless PostgreSQL persistence.",
+    keyFeatures: [
+      "Multi-destination appointment scheduling (Schengen, US, UK, UAE, Japan, Australia)",
+      "Secure cloud document upload & storage powered by AWS S3 (@aws-sdk/client-s3)",
+      "Serverless Neon PostgreSQL database with Next.js 16 App Router API routes",
+      "Real-time application status tracking and dedicated user dashboard",
+    ],
+    technologies: [
+      "Next.js 16",
+      "React 19",
+      "TypeScript",
+      "Tailwind CSS",
+      "Neon PostgreSQL",
+      "AWS S3",
+      "Lucide React",
+    ],
+    github: "https://github.com/kalpana-4321/visa-appoinment",
+    live: "https://visa-appoinment.vercel.app/",
+  },
+  {
     title: "Expense & Financial Tracker",
     tagline: "Full-Stack Next.js 16 • AI Financial Agent • Khalti Payments",
     category: "Next.js",
