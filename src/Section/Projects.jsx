@@ -148,7 +148,7 @@ export const Projects = () => {
               key={index}
               className={`group flex flex-col justify-between rounded-2xl p-7 transition-all duration-300 ${
                 project.featured
-                  ? "bg-gradient-to-b from-[#141d24] to-[#0f151a] border border-[#20b2a6]/40 shadow-xl shadow-[#20b2a6]/5 hover:border-[#20b2a6] hover:shadow-[#20b2a6]/15 hover:-translate-y-1"
+                  ? "bg-linear-to-b from-[#141d24] to-[#0f151a] border border-[#20b2a6]/40 shadow-xl shadow-[#20b2a6]/5 hover:border-[#20b2a6] hover:shadow-[#20b2a6]/15 hover:-translate-y-1"
                   : "bg-[#11171d]/90 border border-[#242e38] hover:border-[#20b2a6]/50 hover:bg-[#141b22] hover:-translate-y-1"
               }`}
             >
@@ -156,9 +156,9 @@ export const Projects = () => {
                 {/* Top badges */}
                 <div className="flex items-center justify-between mb-4 gap-2">
                   <div className="flex items-center gap-2">
-                    <div className="p-2 rounded-lg bg-[#20b2a6]/10 text-[#20b2a6]">
+                    {/* <div className="p-2 rounded-lg bg-[#20b2a6]/10 text-[#20b2a6]">
                       <FolderGit2 className="w-5 h-5" />
-                    </div>
+                    </div> */}
                     {project.featured && (
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#20b2a6]/15 text-[#20b2a6] border border-[#20b2a6]/30">
                         <Sparkles className="w-3 h-3" />
@@ -217,7 +217,7 @@ export const Projects = () => {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#182028] hover:bg-[#20b2a6] hover:text-[#0f1418] text-gray-200 text-xs font-semibold transition-all duration-200"
+                      className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#182028] hover:bg-[#20b2a6] hover:text-background text-gray-200 text-xs font-semibold transition-all duration-200"
                     >
                       <SiGithub className="w-3.5 h-3.5" />
                       GitHub Repo
@@ -229,7 +229,7 @@ export const Projects = () => {
                       href={project.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#20b2a6]/15 hover:bg-[#20b2a6] text-[#20b2a6] hover:text-[#0f1418] text-xs font-semibold border border-[#20b2a6]/30 transition-all duration-200"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#20b2a6]/15 hover:bg-[#20b2a6] text-[#20b2a6] hover:text-background text-xs font-semibold border border-[#20b2a6]/30 transition-all duration-200"
                     >
                       Live Demo
                       <ExternalLink className="w-3.5 h-3.5" />
